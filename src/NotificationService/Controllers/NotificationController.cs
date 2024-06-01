@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NotificationService.Dtos;
 using NotificationService.Interfaces;
+using NotificationService.Models;
 
 namespace NotificationService.Controllers
 {
@@ -17,7 +18,7 @@ namespace NotificationService.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(NotificationEventDto), StatusCodes.Status201Created)]
-       // [ProducesResponseType(typeof(ValidationFailureResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailureResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateNotificationEventAsync([FromBody] NotificationEventDto notifiyEventDto, CancellationToken token = default)
         {
             NotificationEventDto createdNotification = await _notificationService.CreateNotificationEventAsync(notifiyEventDto, token);
