@@ -6,5 +6,7 @@
         public const string ConnectionStringsSectionName = "ConnectionStrings";
 
         public const string CreateValidationRuleSetName = "Create";
+
+        public const string JsonContentType = "application/json";
     }
 }

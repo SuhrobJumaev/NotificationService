@@ -5,6 +5,7 @@ using NotificationService.Interfaces;
 using NotificationService.Services;
 using NotificationService.Repositories;
 using FluentValidation;
+using NotificationService.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,6 @@ var config = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,6 +28,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
