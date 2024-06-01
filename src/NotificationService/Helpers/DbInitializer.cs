@@ -38,9 +38,10 @@ namespace NotificationService.Helpers
             CREATE TABLE IF NOT EXISTS "event" (
                 id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                 type SMALLINT NOT NULL,
-                sessionId VARCHAR(30) NOT NULL,
+                session_id VARCHAR(30) NOT NULL,
                 card VARCHAR(20) NOT NULL,
                 event_date TIMESTAMP NOT NULL,
+                website_url VARCHAR(50) NOT NULL,
                 created_date TIMESTAMP DEFAULT now(),
                 sent_date TIMESTAMP,
                 status SMALLINT DEFAULT 0)
