@@ -4,5 +4,7 @@
     {
         public const string DefaultConnectionKeyName = "DefaultConnection";
         public const string ConnectionStringsSectionName = "ConnectionStrings";
+
+        public const string CreateValidationRuleSetName = "Create";
     }
 }
