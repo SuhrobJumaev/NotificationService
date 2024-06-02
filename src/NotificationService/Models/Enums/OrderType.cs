@@ -2,8 +2,8 @@
 {
     public enum OrderType : short
     {
-        Purchase = 0,
-        CardVerify = 1,
-        SendOtp = 2,
+        Purchase = 1,
+        CardVerify = 2,
+        SendOtp = 3,
     }
 }

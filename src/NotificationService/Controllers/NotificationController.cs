@@ -17,13 +17,13 @@ namespace NotificationService.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(NotificationEventDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(NotificationEventDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailureResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateNotificationEventAsync([FromBody] NotificationEventDto notifiyEventDto, CancellationToken token = default)
         {
             NotificationEventDto createdNotification = await _notificationService.CreateNotificationEventAsync(notifiyEventDto, token);
 
-            return CreatedAtAction("GetNotificatonEvent", new { id = createdNotification.Id }, createdNotification);
+            return Ok(createdNotification);
         }
     }
 }
