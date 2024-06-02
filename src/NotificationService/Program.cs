@@ -6,6 +6,7 @@ using NotificationService.Services;
 using NotificationService.Repositories;
 using FluentValidation;
 using NotificationService.Middlewares;
+using NotificationService.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,7 @@ builder.Services.AddSingleton<DbInitializer>();
 builder.Services.AddTransient<INotificationEventService, NotificationEventService>();
 builder.Services.AddScoped<INotificationEventRepository, NotificationEventRepository>();
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
-
+builder.Services.AddHostedService<NotificationBackgroundJob>();
 
 var app = builder.Build();
 

@@ -43,7 +43,7 @@ namespace NotificationService.Helpers
                 event_date TIMESTAMP NOT NULL,
                 website_url VARCHAR(50) NOT NULL,
                 created_date TIMESTAMP DEFAULT now(),
-                sent_date TIMESTAMP,
+                sent_date TIMESTAMP NULL,
                 status SMALLINT DEFAULT 0)
          """);
 
