@@ -7,15 +7,30 @@ using NotificationService.Repositories;
 using FluentValidation;
 using NotificationService.Middlewares;
 using NotificationService.Jobs;
+using Asp.Versioning;
+using Microsoft.Extensions.Options;
+using NotificationService.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using NotificationService.Health;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var config = builder.Configuration;
 // Add services to the container.
 
+builder.Services.AddApiVersioning(x =>
+{
+    x.DefaultApiVersion = new ApiVersion(1.0);
+    x.AssumeDefaultVersionWhenUnspecified = true;
+    x.ReportApiVersions = true;
+    x.ApiVersionReader = new MediaTypeApiVersionReader(Utils.ApiVersionTag);
+}).AddMvc().AddApiExplorer();
+
+
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(x => x.OperationFilter<SwaggerDefaultValues>());
 
 
 builder.Services.AddSingleton<IDbConnectionFactory>(_ =>
@@ -27,18 +42,25 @@ builder.Services.AddTransient<INotificationEventService, NotificationEventServic
 builder.Services.AddScoped<INotificationEventRepository, NotificationEventRepository>();
 builder.Services.AddValidatorsFromAssemblyContaining<IApplicationMarker>();
 builder.Services.AddHostedService<NotificationBackgroundJob>();
+builder.Services.AddHealthChecks().AddCheck<DatabaseHealthCheck>(Utils.HealthCheckName);
 
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(x =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    foreach (var description in app.DescribeApiVersions())
+    {
+        x.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+            description.GroupName);
 
+    }
+});
+
+app.MapHealthChecks(Utils.HealthCheckEndpoint);
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
