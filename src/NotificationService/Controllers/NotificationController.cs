@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using NotificationService.Dtos;
+using NotificationService.Helpers;
 using NotificationService.Interfaces;
 using NotificationService.Models;
 
@@ -7,6 +9,7 @@ namespace NotificationService.Controllers
 {
     [ApiController]
     [Route("api/notifications")]
+    [ApiVersion(Utils.API_VERSION_1)]
     public class NotificationController : ControllerBase
     {
         private INotificationEventService _notificationService;

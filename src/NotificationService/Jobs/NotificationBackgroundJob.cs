@@ -46,10 +46,10 @@ namespace NotificationService.Jobs
                                 message = string.Format(Utils.PurchaseMessage, notificationEvent.OrderType, notificationEvent.WebsiteUrl, notificationEvent.Card);
                                 break;
                             case OrderType.CardVerify:
-                                message = string.Format(Utils.VerifyCard, notificationEvent.OrderType, notificationEvent.WebsiteUrl, notificationEvent.Card);
+                                message = string.Format(Utils.VerifyCardMessage, notificationEvent.OrderType, notificationEvent.WebsiteUrl, notificationEvent.Card);
                                 break;
                             case OrderType.SendOtp:
-                                message = string.Format(Utils.SendOtp, notificationEvent.Card);
+                                message = string.Format(Utils.SendOtpMessage, notificationEvent.Card);
                                 break;
                         }
 
